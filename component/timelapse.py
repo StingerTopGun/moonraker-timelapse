@@ -62,6 +62,8 @@ class Timelapse:
             "frame_path", "/tmp/timelapse/")
         self.ffmpeg_binary_path = confighelper.get(
             "ffmpeg_binary_path", "/usr/bin/ffmpeg")
+        self.nice_binary_path = confighelper.get(
+            "nice_binary_path", "/usr/bin/nice")
         self.wget_skip_cert = confighelper.getboolean(
             "wget_skip_cert_check", False)
 
@@ -681,7 +683,8 @@ class Timelapse:
                 filterParam = " -vf 'vflip'"
 
             # build shell command
-            cmd = self.ffmpeg_binary_path \
+            cmd = self.nice_binary_path + " " \
+                + self.ffmpeg_binary_path \
                 + " -r " + str(fps) \
                 + " -i '" + inputfiles + "'" \
                 + filterParam \
